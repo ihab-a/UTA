@@ -2,16 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class AuthSeeder extends Seeder
+class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+        User::factory()
+            ->count(10) // Create 10 random users
+            ->create();
+
+        // test user
+        User::create([
+            "username" => "test",
+            "firstname" => "testFirstName",
+            "lastname" => "testLastName",
+            "email" => "abc@email.com",
+            "password" => "test",
+        ]);
     }
 }
