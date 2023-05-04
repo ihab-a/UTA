@@ -1,0 +1,21 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+#root{
+	--color-main: #deddff;
+	--color-secondary: #000;
+
+	color: var(--color-main);
+	position: fixed;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	background-image: linear-gradient(
+		90deg,
+		rgba(196,0,255,1) 0%,
+		rgba(15,0,77,1) 100%,
+		rgba(0,212,255,1) 100%
+	);
+}
