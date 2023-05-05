@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             "firstname" => "testFirstName",
             "lastname" => "testLastName",
             "email" => "abc@email.com",
-            "password" => "test",
+            "password" => \Illuminate\Support\Facades\Hash::make("test"),
         ]);
     }
 }

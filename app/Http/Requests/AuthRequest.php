@@ -18,7 +18,7 @@ class AuthRequest extends FormRequest
         if($this -> method() === "POST")
             return [
                 "email" => "required|email",    
-                "password" => "required|string|min:6",    
+                "password" => "required|string",    
             ];
 
         return [];
