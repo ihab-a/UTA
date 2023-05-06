@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef, Fragment, useRef } from 'react';
-import './split.css';
+import '/resources/css/split.css';
 
 export default function Split(props) {
 	// -1 for not resizing

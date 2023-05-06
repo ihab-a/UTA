@@ -1,0 +1,5 @@
+#player{
+	min-height: fit-content;
+	height: var(--player-size);
+	margin: var(--size-s);
+}

@@ -1,0 +1,18 @@
+.notif{
+	position: fixed;
+	inset: 0 0 auto 0;
+	padding: var(--size-m);
+	width: fit-content;
+	height: fit-content;
+	margin: .4rem auto auto auto;
+	border: 1px solid var(--color-m);
+	border-radius: var(--size-s);
+	background-color: var(--color-s-t);
+	transition: var(--time-s);
+}
+
+.notif-hidden{
+	opacity: 0;
+	transform: scale(0);
+	top: -2rem;
+}

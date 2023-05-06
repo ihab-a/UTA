@@ -1,0 +1,29 @@
+.label-input{
+	display: flex;
+	flex-direction: column;
+	padding: var(--size-s);
+}
+label{
+	color: var(--color-light-m);
+}
+input{
+	color: var(--color-light);
+	padding: var(--size-sm) !important;
+	border-color: var(--color-s) !important;
+}
+input:hover{
+	border-color: var(--color-m) !important;
+}
+
+input[type=submit]{
+	color: var(--color-s);
+	width: fit-content;
+	align-self: flex-end;
+	background-color: var(--color-m);
+	border-color: var(--color-s);
+}
+input[type=submit]:hover{
+	color: var(--color-light);
+	background-color: var(--color-s);
+	border-color: var(--color-m);
+}
