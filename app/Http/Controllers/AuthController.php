@@ -8,6 +8,7 @@ use App\Http\Requests\AuthRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
         return new UserResource(AUTH_USER);
     }
 
-    public function store(AuthRequest $req)
+    public function login(Request $req)
     {
         $credentials = $req->only([
             "email",
@@ -34,6 +35,25 @@ class AuthController extends Controller
             $token = Token::generate($targetUser);
         else
             abort(401, "this password is incorrect");
+
+        return response()->json([
+            "token" => $token
+        ], 200);
+    }
+
+    public function signup(AuthRequest $req){
+        $data = $req->only([
+            "username",
+            "email",
+            "password",
+        ]);
+        
+        $data["password"] = Hash::make($data["password"]);
+
+        $created = User::create($data);
+
+        // generate a token for the user
+        $token = Token::generate($created);
 
         return response()->json([
             "token" => $token

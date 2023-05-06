@@ -6,11 +6,20 @@ async function fetchUser(){
 }
 
 async function login(email, password){
-	const response = await axios.post(`/api/auth`, {
+	const response = await axios.post(`/api/auth/login`, {
 		email,
 		password
 	});
 	return response.data;
 }
 
-export { fetchUser, login };
+async function signup(username, email, password){
+	const response = await axios.post(`/api/auth/signup`, {
+		username,
+		email,
+		password
+	});
+	return response.data;
+}
+
+export { fetchUser, login, signup };

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 
-Route::post("/auth", [AuthController::class, "store"]);
+Route::post("/auth/login", [AuthController::class, "login"]);
+Route::post("/auth/signup", [AuthController::class, "signup"]);
 
 Route::middleware("auth")->group(function (){
     Route::get("/auth", [AuthController::class, "index"]);

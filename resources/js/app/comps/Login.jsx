@@ -10,18 +10,18 @@ export default function Login({ setTarget, triggerRefetch }){
 	const email = useRef();
 	const password = useRef();
 
-	const swapToLogin = (e) => {
+	const swapToSignup = (e) => {
 		e.preventDefault()
-		setTarget(<Signup {...{setTarget}}/>);
+		setTarget(<Signup {...{setTarget, triggerRefetch}}/>);
 	};
 
 	const tryLogin = (e) => {
 		e.preventDefault();
 		login(email.current.value, password.current.value)
 			.then((d) => {
+				Store.notify(`login was successful`);
 				localStorage.setItem("token", d.token);
 				triggerRefetch();
-				setTarget(null);
 			})
 			.catch((err) => {
 				Store.notify(`error occured : ${err.response?.data?.error ?? "unexpected error"}`);
@@ -32,7 +32,7 @@ export default function Login({ setTarget, triggerRefetch }){
 		<h3>login form</h3>
 		<Input _ref={email} label="email" placeholder="enter your email"/>
 		<Input _ref={password} type="password" label="password" placeholder="enter your password"/>
-		<a onClick={swapToLogin}>
+		<a onClick={swapToSignup}>
 			click here if you don't have an account
 		</a>
 		<Input type="submit" onClick={tryLogin}/> 

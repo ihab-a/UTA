@@ -15,10 +15,12 @@ class AuthRequest extends FormRequest
 
     public function rules(): array
     {
+        // this is only used by signup
         if($this -> method() === "POST")
             return [
-                "email" => "required|email",    
-                "password" => "required|string",    
+                "username" => "required|string",
+                "email" => "required|email",
+                "password" => "required|string|min:6",
             ];
 
         return [];
