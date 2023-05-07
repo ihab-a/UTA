@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from './Nav';
 import SidePanel from './SidePanel';
 import Player from './Player';
+import Error from './Error';
+import Home from './Home';
 import '/resources/css/main.css';
 
 export default function Interface(props){
@@ -12,8 +14,8 @@ export default function Interface(props){
 			<section id="content">
 				<BrowserRouter>
 					<Routes>
-						<Route path="/home" element="home"/>
-						<Route path="*" element="not found, redirecting to home..."/>
+						<Route path="/" element={<Home/>}/>
+						<Route path="*" element={<Error code="404"/>}/>
 					</Routes>
 				</BrowserRouter>
 			</section>
