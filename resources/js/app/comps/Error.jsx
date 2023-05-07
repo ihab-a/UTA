@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '/resources/css/error.css';
 
 export default function Error({ code }){
 	const goto = useNavigate();

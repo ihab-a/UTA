@@ -1,0 +1,15 @@
+.error{
+	transition: color 0;
+	color: var(--color-err);
+	position: absolute;
+	inset: var(--size-xl);
+	border-radius: var(--size-m);
+	border: 2px solid var(--color-err);
+	background-color: var(--color-s-t);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--size-xl);
+	text-align: center;
+	font-weight: 600;
+}
