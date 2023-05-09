@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRequest extends FormRequest
 {
-    use jsonFailedValidation;
+    use JsonFailedValidation;
     public function authorize(): bool
     {
         // AUTH_USER and AUTH_TOKEN are insured by the middleware Auth

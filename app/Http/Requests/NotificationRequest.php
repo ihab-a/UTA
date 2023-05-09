@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class NotificationRequest extends FormRequest
 {
-    use jsonFailedValidation;
+    use JsonFailedValidation;
     public function authorize(): bool
     {
         $method = $this->method();

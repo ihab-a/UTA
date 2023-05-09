@@ -3,7 +3,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait jsonFailedValidation{
+trait JsonFailedValidation{
 	protected function failedValidation(Validator $validator){
 		response() -> json($validator -> errors(), 400) -> send();
 		exit();
