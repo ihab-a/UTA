@@ -15,5 +15,6 @@ Route::middleware("auth")->group(function (){
     Route::put("/auth", [AuthController::class, "update"]);
     Route::delete("/auth", [AuthController::class, "destroy"]);
 
+    Route::apiResource("/song", SongController::class);
     Route::apiResource("/notification", NotificationController::class)->only(["index", "update", "destroy"]);
 });

@@ -21,4 +21,7 @@ class User extends Model
     function _notifications(){
         return $this->hasMany(Notification::class, "user");
     }
+    function _songs(){
+        return $this->hasMany(Song::class, "user");
+    }
 }
