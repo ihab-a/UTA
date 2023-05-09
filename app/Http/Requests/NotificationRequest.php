@@ -15,8 +15,8 @@ class NotificationRequest extends FormRequest
             return true;
 
         // when updating / deleting check notification belongs to user
-        if(in_array($method, ["DELETE", "PUT"]) && $this->notification->user === AUTH_USER->id){
-            return true;
+        if(in_array($method, ["DELETE", "PUT"])){
+            return $this->notification->user === AUTH_USER->id;
         }
 
         return false;
