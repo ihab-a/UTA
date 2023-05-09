@@ -15,7 +15,10 @@ class User extends Model
         "lastname",
         "password",
     ];
-    function tokens(){
+    function _tokens(){
         return $this->hasMany(Token::class, "user");
+    }
+    function _notifications(){
+        return $this->hasMany(Notification::class, "user");
     }
 }

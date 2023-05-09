@@ -14,12 +14,13 @@ class UserSeeder extends Seeder
             ->create();
 
         // test user
-        User::create([
-            "username" => "test",
-            "firstname" => "testFirstName",
-            "lastname" => "testLastName",
-            "email" => "abc@email.com",
-            "password" => \Illuminate\Support\Facades\Hash::make("test"),
+        User::firstOrCreate([
+            'username' => 'test',
+            'email' => 'abc@email.com',
+        ], [
+            'firstname' => 'testFirstName',
+            'lastname' => 'testLastName',
+            'password' => \Illuminate\Support\Facades\Hash::make('test'),
         ]);
     }
 }
