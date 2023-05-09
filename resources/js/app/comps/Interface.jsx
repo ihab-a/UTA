@@ -5,6 +5,7 @@ import SidePanel from './SidePanel';
 import Player from './Player';
 import Error from './Error';
 import Home from './Home';
+import Profile from './Profile';
 import '/resources/css/main.css';
 
 export default function Interface(props){
@@ -15,6 +16,7 @@ export default function Interface(props){
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Home/>}/>
+						<Route path="/profile" element={<Profile/>}/>
 						<Route path="*" element={<Error code="404"/>}/>
 					</Routes>
 				</BrowserRouter>
