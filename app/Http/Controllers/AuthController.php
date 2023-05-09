@@ -19,6 +19,31 @@ class AuthController extends Controller
         return new UserResource(AUTH_USER);
     }
 
+    public function update(AuthRequest $req){
+        $data = $req->only([
+            "username",
+            "firstname",
+            "lastname",
+            "email",
+            "password",
+        ]);
+
+        if($data["password"] ?? false)
+            $data["password"] = Hash::make($data["password"]);
+
+        AUTH_USER->update($data);
+
+        return response()->json([
+            "msg" => "success",
+            "user" => new UserResource(AUTH_USER),
+        ], 200);
+    }
+
+    public function destroy(AuthRequest $req){
+        AUTH_USER->delete();
+        return response()->json(["msg" => "success"], 200);
+    }
+
     public function login(Request $req)
     {
         $credentials = $req->only([
@@ -37,13 +62,16 @@ class AuthController extends Controller
             abort(401, "this password is incorrect");
 
         return response()->json([
-            "token" => $token
+            "token" => $token,
+            "user" => new UserResource($targetUser),
         ], 200);
     }
 
     public function signup(AuthRequest $req){
         $data = $req->only([
             "username",
+            "firstname",
+            "lastname",
             "email",
             "password",
         ]);
@@ -56,11 +84,12 @@ class AuthController extends Controller
         $token = Token::generate($created);
 
         return response()->json([
-            "token" => $token
+            "token" => $token,
+            "user" => new UserResource($created),
         ], 201);
     }
 
-    public function destroy(User $auth)
+    public function logout(User $auth)
     {
         // delete the token to logout
         AUTH_TOKEN->delete();
