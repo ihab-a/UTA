@@ -35,7 +35,7 @@ class AuthController extends Controller
 
         return response()->json([
             "msg" => "success",
-            "user" => new UserResource(AUTH_USER),
+            "updated" => new UserResource(AUTH_USER),
         ], 200);
     }
 
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
         return response()->json([
             "token" => $token,
-            "user" => new UserResource($created),
+            "created" => new UserResource($created),
         ], 201);
     }
 
