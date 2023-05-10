@@ -62,4 +62,14 @@ class SongController extends Controller
             "msg" => "song deleted succesfully",
         ], 200);
     }
+
+    public function toggleLike(Song $song){
+        $song->_likes()->toggle([
+            "user" => AUTH_USER->id
+        ]);
+
+        return response()->json([
+            "msg" => "success",
+        ], 200);
+    }
 }

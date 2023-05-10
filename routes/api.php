@@ -16,6 +16,7 @@ Route::middleware("auth")->group(function (){
     Route::delete("/auth", [AuthController::class, "destroy"]);
 
     Route::apiResource("/song", SongController::class);
+    Route::post("/song/{song}/like", [SongController::class, "toggleLike"]);
     Route::apiResource("/notification", NotificationController::class)->only(["index", "update", "destroy"]);
     Route::apiResource("/playlist", PlaylistController::class);
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);

@@ -13,7 +13,12 @@ class Song extends Model
         "description",
         "user",
     ];
+
     function _user(){
         return $this->belongsTo(User::class, "user");
+    }
+
+    function _likes(){
+        return $this->belongsToMany(User::class, "song_likes", "song", "user");
     }
 }
