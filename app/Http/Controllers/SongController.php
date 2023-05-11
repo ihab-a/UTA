@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Song;
+use App\Models\File;
 use App\Http\Requests\SongRequest;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
@@ -17,6 +18,9 @@ class SongController extends Controller
 
     public function store(SongRequest $req)
     {
+        // store the song file
+        $file = File::_store();
+
         // store a song
         $data = $req->only([
             "title",
@@ -24,6 +28,9 @@ class SongController extends Controller
         ]);
 
         $data["user"] = AUTH_USER->id;
+
+        // store song file
+        $data["file"] = $file->id;
 
         $created = Song::create($data);
 

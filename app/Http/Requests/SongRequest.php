@@ -25,12 +25,14 @@ class SongRequest extends FormRequest
             return [
                 "title" => "string|required",
                 "description" => "string",
+                "file" => "required|file",
             ];
 
         if($method === "PUT")
             return [
                 "title" => "string",
                 "description" => "string",
+                "file" => "file",
             ];
 
         return [];
