@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             NotificationSeeder::class,
             SongSeeder::class,
+            GenreSeeder::class,
         ]);
     }
 }
