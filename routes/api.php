@@ -16,10 +16,11 @@ Route::middleware("auth")->group(function (){
     Route::delete("/auth", [AuthController::class, "destroy"]);
 
     Route::apiResource("/song", SongController::class);
-    Route::post("/song/{song}/like", [SongController::class, "toggleLike"]);
+    Route::post("/song/{song}/like", [SongLikeController::class, "store"]);
     Route::apiResource("/song/{song}/genre", SongGenreController::class)->only(["store"]);
     Route::delete("/song/{song}/genre", [SongGenreController::class, "destroy"]);
     Route::apiResource("/notification", NotificationController::class)->only(["index", "update", "destroy"]);
+    Route::get("/playlist/liked", [SongLikeController::class, "index"]);
     Route::apiResource("/playlist", PlaylistController::class);
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);
     Route::delete("/playlist/{playlist}/song", [PlaylistSongController::class, "destroy"]);
