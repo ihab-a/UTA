@@ -23,4 +23,5 @@ Route::middleware("auth")->group(function (){
     Route::apiResource("/playlist", PlaylistController::class);
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);
     Route::delete("/playlist/{playlist}/song", [PlaylistSongController::class, "destroy"]);
+    Route::post("/search", [SearchController::class, "store"]);
 });

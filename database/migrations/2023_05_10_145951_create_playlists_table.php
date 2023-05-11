@@ -13,12 +13,16 @@ return new class extends Migration
             $table->string("title");
             $table->string("description")->nullable();
             $table->boolean("private")->default(true);
+
             $table->foreignId("user")
                 ->constrained("users", "id")
                 ->onDelete("cascade")
                 ->onUpdate("cascade");
+                
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE playlists ADD FULLTEXT(title)');
     }
 
     public function down(): void

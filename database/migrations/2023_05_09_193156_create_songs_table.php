@@ -15,12 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->string("description", 512)->nullable();
+
             $table->foreignId("user")
                 ->constrained("users", "id")
                 ->onDelete("cascade")
                 ->onUpdate("cascade");
+
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE songs ADD FULLTEXT(title)');
     }
 
     /**
