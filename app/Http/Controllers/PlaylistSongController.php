@@ -25,7 +25,7 @@ class PlaylistSongController extends Controller
         ], 201);
     }
 
-    public function destroy(PlaylistSongRequest $req, Playlist $playlist, Song $song)
+    public function destroy(PlaylistSongRequest $req, Playlist $playlist)
     {
         $playlist->_songs()->detach($req->songs);
 
