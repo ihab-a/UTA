@@ -27,7 +27,7 @@ class SongRequest extends FormRequest
                 "description" => "string",
             ];
 
-        if($method === "POST")
+        if($method === "PUT")
             return [
                 "title" => "string",
                 "description" => "string",
