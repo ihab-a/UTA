@@ -2,16 +2,30 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Playlist;
+use App\Models\Song;
 use Illuminate\Database\Seeder;
 
 class PlaylistSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        Playlist::factory()
+            ->count(10)
+            ->create();
+
+        // test user playlists
+        $testUser = User::where("username", "test")->first()->id;
+        Playlist::factory($testUser)
+            ->count(3)
+            ->create();
+
+        // add songs to each playlist
+        foreach(Playlist::all() as $playlist){
+            $playlist->_songs()->sync(
+                Song::inRandomOrder()->limit(4)->get()
+            );
+        }
     }
 }

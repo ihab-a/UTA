@@ -8,14 +8,13 @@ use Illuminate\Database\Seeder;
 
 class SongSeeder extends Seeder
 {
-
     public function run(): void
     {
         Song::factory()
-            ->count(10) // Create 10 random notifications
+            ->count(10)
             ->create();
 
-        // test user notifications
+        // test user songs
         $testUser = User::where("username", "test")->first()->id;
         Song::factory($testUser)
             ->count(3)

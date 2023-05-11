@@ -9,15 +9,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PlaylistFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = \App\Models\Playlist::class;
+    public function definition($user = null): array
     {
+        // get a random user for the notification
+        $user = $user ?? \App\Models\User::inRandomOrder()->first()->id;
+
         return [
-            //
+            "title" => $this->faker->sentence(3),
+            "description" => [$this->faker->sentence(20), null][rand() % 2],
+            "private" => rand() % 2,
+            "user" => $user,
         ];
     }
 }

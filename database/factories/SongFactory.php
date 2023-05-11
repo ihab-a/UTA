@@ -18,6 +18,7 @@ class SongFactory extends Factory
         return [
             "title" => $this->faker->sentence(3),
             "description" => [$this->faker->sentence(20), null][rand() % 2],
+            "likes" => rand() % 2000000,
             "user" => $user,
         ];
     }
