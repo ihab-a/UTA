@@ -22,6 +22,7 @@ class PlaylistSongController extends Controller
 
         return response()->json([
             "msg" => "song(s) added to playlist successfully",
+            "songs" => new SongCollection($playlist->_songs),
         ], 201);
     }
 
@@ -31,6 +32,7 @@ class PlaylistSongController extends Controller
 
         return response()->json([
             "msg" => "song(s) deleted from playlist successfully",
+            "songs" => new SongCollection($playlist->_songs),
         ], 201);
     }
 }

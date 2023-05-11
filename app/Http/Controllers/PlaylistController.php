@@ -31,7 +31,7 @@ class PlaylistController extends Controller
 
         return response()->json([
             "msg" => "playlist created successfully",
-            "created" => $created,
+            "created" => new PlaylistResource($created),
         ], 201);
     }
 
@@ -59,7 +59,7 @@ class PlaylistController extends Controller
 
         return response()->json([
             "msg" => "playlist updated successfully",
-            "updated" => $updated,
+            "updated" => new PlaylistResource($updated),
         ], 201);
     }
 
