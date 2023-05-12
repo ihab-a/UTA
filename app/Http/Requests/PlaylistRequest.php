@@ -4,15 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SongRequest extends FormRequest
+class PlaylistRequest extends FormRequest
 {
     use JsonFailedValidation;
     public function authorize(): bool
     {
         $method = $this->method();
-        
+
         if(in_array($method, ["PUT", "DELETE"]))
-            return $this->song->user === AUTH_USER->id;
+            return $this->playlist->user === AUTH_USER->id;
 
         return true;
     }
@@ -23,16 +23,16 @@ class SongRequest extends FormRequest
 
         if($method === "POST")
             return [
-                "title" => "string|required",
+                "title" => "required|string",
                 "description" => "string",
-                "file" => "required|file",
+                "private" => "boolean",
             ];
 
         if($method === "PUT")
             return [
                 "title" => "string",
                 "description" => "string",
-                "file" => "file",
+                "private" => "boolean",
             ];
 
         return [];

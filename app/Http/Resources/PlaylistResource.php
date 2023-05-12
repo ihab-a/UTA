@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SongResource extends JsonResource
+class PlaylistResource extends JsonResource
 {
     static $wrap = false;
     public function toArray(Request $request): array
@@ -14,9 +14,8 @@ class SongResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "description" => $this->description,
-            "likes" => $this->_likes()->count(),
+            "private" => $this->private,
             "user" => new UserResource($this->_user),
-            "genres" => $this->_genres,
         ];
     }
 }

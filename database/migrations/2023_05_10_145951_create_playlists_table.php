@@ -6,37 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('songs', function (Blueprint $table) {
+        Schema::create('playlists', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->string("description", 512)->nullable();
+            $table->string("description")->nullable();
+            $table->boolean("private")->default(true);
 
             $table->foreignId("user")
                 ->constrained("users", "id")
                 ->onDelete("cascade")
                 ->onUpdate("cascade");
-
-            $table->foreignId("file")
-                ->constrained("files", "id")
-                ->onDelete("cascade")
-                ->onUpdate("cascade");
-
+                
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE songs ADD FULLTEXT(title)');
+        DB::statement('ALTER TABLE playlists ADD FULLTEXT(title)');
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists('playlists');
     }
 };

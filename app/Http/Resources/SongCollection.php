@@ -14,7 +14,8 @@ class SongCollection extends ResourceCollection
             return [
                 "id" => $song->id,
                 "title" => $song->title,
-                "user" => new UserResource($song->_user),
+                "likes" => $song->_likes()->count(),
+                "user" => new ShortUserResource($song->_user),
             ];
         });
     }
