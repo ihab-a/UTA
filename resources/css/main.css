@@ -1,8 +1,8 @@
 .border{
 	border: 1px solid var(--color-m);
 	background: var(--color-s-t);
-	backdrop-filter: blur(10px);
-	border-radius: var(--size-s);
+	/* backdrop-filter: blur(10px); */
+	border-radius: var(--size-l);
 	padding: var(--size-s);
 }
 #main{

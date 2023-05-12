@@ -11,18 +11,18 @@ import '/resources/css/main.css';
 export default function Interface(props){
 	return <>
 		<main id="main">
-			<Nav/>
-			<section id="content">
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<Home/>}/>
-						<Route path="/profile" element={<Profile/>}/>
-						<Route path="*" element={<Error code="404"/>}/>
-					</Routes>
-				</BrowserRouter>
-			</section>
+			<BrowserRouter>
+				<Nav/>
+				<section id="content">
+						<Routes>
+							<Route path="/" element={<Home/>}/>
+							<Route path="/profile" element={<Profile/>}/>
+							<Route path="*" element={<Error code="404"/>}/>
+						</Routes>
+				</section>
 
-			<SidePanel/>
+				<SidePanel/>
+			</BrowserRouter>
 		</main>
 		<Player/>
 	</>
