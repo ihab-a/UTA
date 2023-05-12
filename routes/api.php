@@ -26,3 +26,6 @@ Route::middleware("auth")->group(function (){
     Route::delete("/playlist/{playlist}/song", [PlaylistSongController::class, "destroy"]);
     Route::post("/search", [SearchController::class, "store"]);
 });
+
+    Route::get("/song/{song}/listen", [StreamController::class, "song"]);
+    Route::get("/playlist/{playlist}/listen", [StreamController::class, "playlist"]);

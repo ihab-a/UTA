@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Request;
 
 class File extends Model
 {
@@ -19,7 +21,7 @@ class File extends Model
         $name = $file->getClientOriginalName();
 
         // random hash
-        $hash = hash("sha512", microtime() . FacadesRequest::ip() . rand() . $name);
+        $hash = hash("sha512", microtime() . Request::ip() . rand() . $name);
 
         // save the path for use when reading the file
         $path = $hash . "." . $file->getClientOriginalExtension();
