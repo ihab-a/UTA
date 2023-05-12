@@ -7,7 +7,6 @@ export default function NotificationHandler(){
 	const [content, setContent] = useState("");
 	const [type, setType] = useState("");
 	const Store = useContext(store);
-	console.log(Store)
 
 	useEffect(() => {
 		const notify = (content, type="info", duration=5000) => {

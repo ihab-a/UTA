@@ -13,7 +13,7 @@ class SongController extends Controller
     public function index()
     {
         // get song suggestions
-        return new SongCollection(Song::inRandomOrder()->limit(10)->get());
+        return new SongCollection(Song::inRandomOrder()->limit(50)->get());
     }
 
     public function store(SongRequest $req)
