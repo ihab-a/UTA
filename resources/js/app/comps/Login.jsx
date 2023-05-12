@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from 'react'
 import { store } from '/resources/js/app/index';
-import Input from './Input';
-import Signup from './Signup'
+import Signup from './Signup';
 import { login } from '/resources/js/api/auth';
+import "/resources/css/login.css";
+import picture from "/resources/assets/login-splash.jpg";
 
 export default function Login({ setTarget, triggerRefetch }){
 	const Store = useContext(store);
@@ -28,13 +29,38 @@ export default function Login({ setTarget, triggerRefetch }){
 			})
 	};
 
-	return <form className="overlay border">
-		<h3>login form</h3>
-		<Input _ref={email} label="email" placeholder="enter your email"/>
-		<Input _ref={password} type="password" label="password" placeholder="enter your password"/>
-		<a onClick={swapToSignup}>
-			click here if you don't have an account
-		</a>
-		<Input type="submit" onClick={tryLogin}/> 
-	</form>
+	return <div className="form-holder">
+		<div className="image-container">
+		<img src={picture} alt="background" className="background-image" />
+		</div>
+		<form onSubmit={tryLogin} className="login-form">
+		<h2 className="login-title">Login</h2>
+		<div className="input-container">
+			<input
+				type="email"
+				name="email"
+				ref={email}
+				className="login-input"
+				placeholder="E-mail"
+			/>
+		</div>
+		<div className="input-container">
+			<input
+				type="password"
+				name="password"
+				ref={password}
+				className="login-input"
+				placeholder="Password"
+			/>
+		</div>
+		<div className="signup-container">
+			<p>
+			Don’t have an account? <span className="sip" onClick={swapToSignup}>Signup here</span>
+			</p>
+		</div>
+		<button type="submit" className="login-button">
+			Login
+		</button>
+		</form>
+	</div>
 }
