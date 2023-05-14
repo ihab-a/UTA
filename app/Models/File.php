@@ -50,6 +50,7 @@ class File extends Model
                 "Content-Type" => mime_content_type($path),
                 "Content-Disposition" => "attachment; filename=\"{$file->name}\"",
             ],
+            "path" => $path,
         ];
     }
     static function _delete($file)
