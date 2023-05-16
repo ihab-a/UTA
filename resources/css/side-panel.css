@@ -1,3 +1,45 @@
-#side-panel{
+#side-panel {
 	width: var(--panel-size);
+	padding: 15px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	border-radius: var(--size-l);;
+}
+
+.panel-header {
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
+}
+
+.logo-icon img{
+	width:3rem;
+	color:#fff;
+} 
+
+.options {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.options .edit {
+	margin-right: 10px;
+}
+
+.options .logout {
+	margin-left: 10px;
+}
+
+
+.options .user-img img {
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
 }
