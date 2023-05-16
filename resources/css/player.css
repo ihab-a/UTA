@@ -1,5 +1,114 @@
 #player{
-	min-height: fit-content;
-	height: var(--player-size);
+	display: flex;
+	justify-content: space-between;
+/*	height: var(--player-size);*/
+	max-height: fit-content;
 	margin: var(--size-s);
+}
+#player-meta{
+	max-width: 25%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#player-image{
+	width: 4rem;
+	height: 90%;
+	object-fit: cover;
+	margin-right: var(--size-s);
+	border-radius: var(--size-s);
+}
+#player-text{
+	overflow: hidden;
+	width: 100%;
+}
+#player-tools{
+	display: flex;
+	align-items: center;
+}
+#player-tools>*{
+	margin: 0 var(--size-s);
+}
+#player-controls{
+	width: 100%;
+	display: flex;
+	margin: 0 var(--size-s);
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+#seekbar{
+	--progress: 90%;
+	height: var(--size-s);
+	width: 90%;
+	border: 1px solid var(--color-m);
+	border-radius: var(--size-s);
+}
+#seekbar:hover{
+	height: var(--size-sm);
+}
+#seekbar:after{
+	transition-property: width, height;
+	transition-duration: var(--time-s);
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	height: 80%;
+	width: var(--progress);
+	background-color: var(--color-m);
+}
+#seekbar:hover:after{
+	height: 100%;
+}
+#seekbar-group>*{
+	margin: 0 var(--size-s);
+	min-width: fit-content;
+	justify-content: center;
+	align-items: center;
+}
+#player-buttons{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#player-buttons>*{
+	border-radius: var(--size-s);
+	padding: var(--size-xs);
+	margin: 0 var(--size-s);
+}
+#player-buttons>*:hover{
+	background-color: var(--color-m-t);
+}
+#volume{
+
+}
+#volume-bar{
+	--volume: 100%;
+	z-index: 1;
+	position: absolute;
+	bottom: 120%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: var(--size-sm);
+	height: var(--size-xxl);
+	border: 1px solid var(--color-light);
+	border-radius: var(--size-s);
+	background-color: var(--color-s);
+}
+#volume-bar:after{
+	content: "";
+	transition-property: width, height;
+	transition-duration: var(--time-s);
+	position: absolute;
+	bottom: 3%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 30%;
+	height: var(--volume);
+	background-color: var(--color-m);
 }

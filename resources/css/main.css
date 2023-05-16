@@ -1,20 +1,75 @@
+/* chrome */
+::-webkit-scrollbar {
+	width: var(--size-scrollbar);
+	height: var(--size-scrollbar);
+}
+
+::-webkit-scrollbar-track {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-s);
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-m);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-light);
+}
+
+/* Firefox */
+html {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-m) var(--color-scrollbar);
+}
+
+html::-moz-scrollbar {
+	border-radius: var(--size-scrollbar);
+	width: var(--size-scrollbar);
+	height: var(--size-scrollbar);
+}
+
+html::-moz-scrollbar-track {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-s);
+}
+
+html::-moz-scrollbar-thumb {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-m);
+}
+
+html::-moz-scrollbar-thumb:hover {
+	border-radius: var(--size-scrollbar);
+	background: var(--color-light);
+}
+
 .border{
 	border: 1px solid var(--color-m);
 	background: var(--color-s-t);
-	/* backdrop-filter: blur(10px); */
-	border-radius: var(--size-l);
+	border-radius: var(--size-s);
 	padding: var(--size-s);
+}
+.margin-h{
+	margin: var(--size-m) 0;
+}
+.margin-v{
+	margin: 0 var(--size-s);
 }
 #main{
 	display: flex;
 	height: 100%;
 	justify-content: space-between;
+	overflow: hidden;
 }
 #main>*{
 	margin: var(--size-s);
 }
 #content{
 	width: 100%;
+	overflow: hidden auto;
 }
 .overlay{
 	z-index: 1;
@@ -23,4 +78,38 @@
 	margin: auto;
 	width: fit-content;
 	height: fit-content;
+}
+.grid{
+	display: flex;
+	flex-wrap: wrap;
+}
+.grid>*{
+	width: 8rem;
+	margin: var(--size-m);
+}
+.flex-h{
+	display: flex;
+	width: 100%;
+	overflow: scroll hidden;
+	margin: var(--size-s) 0;
+	padding: 0;
+	align-items: center;
+}
+.text-truncate{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+}
+.text-center{
+	text-align: center;
+}
+.icon-s{
+	height: 1.1rem;
+}
+.icon{
+	height: 1.4rem;
+}
+.icon-b{
+	height: 2.5rem;
 }

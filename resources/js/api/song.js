@@ -5,4 +5,11 @@ async function fetchSong(id){
 	return response.data;
 }
 
-export { fetchSong };
+async function fetchSongAll(){
+	const response = await axios.get(`/api/song`, {headers : {
+		Authorization: localStorage.token ?? ""
+	}});
+	return response.data;
+}
+
+export { fetchSong, fetchSongAll };

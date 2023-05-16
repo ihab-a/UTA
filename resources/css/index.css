@@ -6,15 +6,28 @@
 	box-sizing: border-box;
 	transition: background-color .3s,
 		color .3s,
+		width .3s,
+		height .3s,
+		top .3s,
+		left .3s,
+		right .3s,
+		bottom .3s,
+		padding .3s,
+		margin .3s,
+		transform .3s,
 		border-color .3s;
+	scroll-behavior: smooth;
+}
+*:focus{
+	outline: 2px dashed var(--color-s);
 }
 
 #root{
-	--color-m: #bb99e9;
+	--color-m: #bb22e9;
 	--color-m-t: #6E4E9833;
 	--color-a: #CD495C;
 	--color-s: #060413;
-	--color-s-t: #06041377;
+	--color-s-t: #06041399;
 	--color-light: #D4D8E8;
 	--color-light-m: #989ba6;
 	--color-success: #158D8D;
@@ -34,15 +47,19 @@
 	--player-size: 4rem;
 	--panel-size: 10rem;
 
+	--size-scrollbar: 0;
+
 	color: var(--color-light);
 	position: fixed;
 	inset: 0;
 	display: flex;
 	flex-direction: column;
 	background-image: linear-gradient(
-		90deg,
-		rgba(196,0,255,1) 0%,
-		rgba(15,0,77,1) 100%,
-		rgba(0,212,255,1) 100%
+		35deg,
+		#CE213A 0%,
+		#CE213A 15%,
+		var(--color-success) 50%,
+		#643A9B 90%,
+		#643A9B 100%
 	);
 }
