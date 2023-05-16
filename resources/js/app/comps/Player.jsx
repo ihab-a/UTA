@@ -3,7 +3,7 @@ import '/resources/css/player.css';
 import { fetchSong } from '/resources/js/api/song.js';
 
 export default function Player(){
-	const [target, setTarget] = useState(parseInt(Math.random() % 200) + 1);
+	const [target, setTarget] = useState(1);
 	const [playing, setPlaying] = useState(false);
 	const [song, setSong] = useState({});
 	const player = useRef();
