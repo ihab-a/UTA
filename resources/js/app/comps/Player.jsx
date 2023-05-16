@@ -11,6 +11,10 @@ import shuffleIcon from '/resources/assets/shuffle.png';
 import noShuffleIcon from '/resources/assets/no-shuffle.png';
 import lyricsIcon from '/resources/assets/lyrics.png';
 import volumeIcon from '/resources/assets/volume.png';
+import mutedIcon from '/resources/assets/muted.png';
+import playlistIcon from '/resources/assets/add-to-playlist.png';
+import nextIcon from '/resources/assets/next.png';
+import previousIcon from '/resources/assets/previous.png';
 
 export default function Player(){
 	const [playOnSongChange, setPlayOnSongChange] = useState(true);
@@ -138,11 +142,11 @@ export default function Player(){
 
 		<div id="player-controls" className="border">
 			<div id="player-buttons">
-				<img className="icon" onClick={toggleRepeat} src={repeat ? repeatIcon : noRepeatIcon}/>
-				<div>&lt;</div>
+				<img className="icon-s" onClick={toggleRepeat} src={repeat ? repeatIcon : noRepeatIcon}/>
+				<img className="icon" src={previousIcon}/>
 				<img className="icon-b" onClick={togglePlay} src={playing ? pauseIcon : playIcon}/>
-				<div>&gt;</div>
-				<img className="icon" onClick={toggleShuffle} src={shuffle ? shuffleIcon : noShuffleIcon}/>
+				<img className="icon" src={nextIcon}/>
+				<img className="icon-s" onClick={toggleShuffle} src={shuffle ? shuffleIcon : noShuffleIcon}/>
 			</div>
 			<div className="flex-h" id="seekbar-group">
 				<div>{formatTime(duration)}</div>
@@ -154,7 +158,7 @@ export default function Player(){
 		</div>
 
 		<div id="player-tools" className="border">
-			<span>+</span>
+			<img className="icon-s" src={playlistIcon}/>
 			<img className="icon-s" src={lyricsIcon}/>
 			<div id="volume">
 				{
@@ -162,7 +166,7 @@ export default function Player(){
 						"--volume" : `${volume * 100 - 6}%`,
 					}}/> : null
 				}
-				<img className="icon-s" onClick={toggleMuted} onMouseEnter={showVolumeBar} src={volumeIcon}/>
+				<img className="icon-s" onClick={toggleMuted} onMouseEnter={showVolumeBar} src={muted ? mutedIcon : volumeIcon}/>
 			</div>
 		</div>
 	</div>

@@ -83,7 +83,9 @@
 	background-color: var(--color-m-t);
 }
 #volume{
-
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 #volume-bar{
 	--volume: 100%;
