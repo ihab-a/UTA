@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { fetchSongAll } from "/resources/js/api/song";
 import search from "/resources/js/api/search";
 import Input from "./Input"
 import Song from "./Song";
+import { store } from '../index';
 
 export default function Feed({ id, title, likes, user }){
+	const Store = useContext(store)
 	const [data, setData] = useState([]);
 	const [searchTarget, setSearchTarget] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
+	const allowFetch = Store.allowFetch;
+	console.log(allowFetch)
 
 	const handleInput = (e) => {
 		setSearchTarget(e.target.value);
 	}
 
 	useEffect(() => {
-		fetchSongAll().then(d => setData(d));
-	}, []);
+		if(allowFetch)
+			fetchSongAll().then(d => setData(d));
+	}, [allowFetch]);
 
 	useEffect(() => {
 		if(searchTarget && searchTarget.length >= 3)

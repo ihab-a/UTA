@@ -29,6 +29,7 @@ export default function Player(){
 	const [duration, setDuration] = useState(0);
 	const Store = useContext(store);
 	const player = useRef(new Audio());
+	const allowFetch = Store.allowFetch;
 
 	const hideVolumeBar = () => {
 		setVolumeBar(true);
@@ -105,9 +106,9 @@ export default function Player(){
 	useEffect(() => {
 		player.current.src = `/api/song/${target}/listen`;
 		setPlaying(false);
-		if(target !== null)
+		if(allowFetch && target !== null)
 			fetchSong(target).then(d => setSong(d));
-	}, [target]);
+	}, [target, allowFetch]);
 
 	useEffect(() => {
 		// only if song is fetched allow play on song change
