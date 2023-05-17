@@ -12,6 +12,7 @@ class Song extends Model
         "title",
         "description",
         "user",
+        "file",
     ];
 
     function _user(){
