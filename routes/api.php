@@ -25,6 +25,7 @@ Route::middleware("auth")->group(function (){
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);
     Route::delete("/playlist/{playlist}/song", [PlaylistSongController::class, "destroy"]);
     Route::post("/search", [SearchController::class, "store"]);
+    Route::apiResource("/for-you", SuggestionController::class)->only(["index", "store"]);
 });
 
     Route::get("/song/{song}/listen", [StreamController::class, "song"]);

@@ -59,20 +59,4 @@ class StreamController extends Controller
 
         return $response;
     }
-
-
-    public function playlist(StreamRequest $req, Playlist $playlist){
-        $target = (int)$req->query("t", 0);
-        $songs = $playlist->_songs;
-
-        if($songs->count() !== $target)
-            return response()->json([
-                "error" => "this song doesn't exist in the playlist",
-            ], 400);
-
-        // get target song file
-        $file = File::_get($songs[$target]->file);
-
-        return response($file["content"], 200, $file["headers"]);
-    }
 }

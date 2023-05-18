@@ -27,4 +27,13 @@ class User extends Model
     function _likedSongs(){
         return $this->belongsToMany(Song::class, "song_likes", "user", "song");
     }
+    function _plays(){
+        return $this->belongsToMany(Song::class, "song_plays", "user", "song");
+    }
+    function _hadLikedSong($song){
+        // if the song is a model object get the id
+        $song = $song->id ?? $song;
+
+        return $this->whereHas("_likedSongs", fn($q)=>$q->where("id", $song))->exists();
+    }
 }
