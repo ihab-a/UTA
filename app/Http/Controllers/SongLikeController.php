@@ -16,12 +16,14 @@ class SongLikeController extends Controller
     }
 
     public function store(Song $song){
-        $song->_likes()->toggle([
+        $res = $song->_likes()->toggle([
             "user" => AUTH_USER->id
         ]);
 
+        $res = count($res["attached"]) ? true : false;
+
         return response()->json([
-            "msg" => "song liked successfully",
+            "msg" => "song ". ($res ? "liked" : "disliked") ." successfully",
         ], 200);
     }
 }
