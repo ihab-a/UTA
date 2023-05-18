@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Token;
+use App\Models\File;
 use App\Http\Requests\AuthRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
@@ -30,6 +31,14 @@ class AuthController extends Controller
 
         if($data["password"] ?? false)
             $data["password"] = Hash::make($data["password"]);
+
+
+        if($req->hasFile("profile")){
+            if(AUTH_USER->profile)
+                $file = File::_delete(AUTH_USER->profile);
+            $file = File::_store("profile");
+            $data["profile"] = $file->id;
+        }
 
         AUTH_USER->update($data);
 
@@ -68,6 +77,7 @@ class AuthController extends Controller
     }
 
     public function signup(AuthRequest $req){
+
         $data = $req->only([
             "username",
             "firstname",
@@ -75,8 +85,14 @@ class AuthController extends Controller
             "email",
             "password",
         ]);
+
         
         $data["password"] = Hash::make($data["password"]);
+
+        if($req->hasFile("profile")){
+            $file = File::_store("profile");
+            $data["profile"] = $file->id;
+        }
 
         $created = User::create($data);
 

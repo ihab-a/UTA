@@ -35,6 +35,7 @@ class AuthRequest extends FormRequest
                 "lastname" => "string",
                 "email" => "required|email|unique:users,email",
                 "password" => "required|string|min:6",
+                "profile" => "file",
             ];
 
         // login
@@ -52,6 +53,7 @@ class AuthRequest extends FormRequest
                 "email" => "email|unique:users,email",
                 "password" => "string|min:6",
                 "oldPassword" => "min:6" . (($this->password ?? false) ? "|required" : ""),
+                "profile" => "file",
             ];
 
         if($method === "DELETE")
