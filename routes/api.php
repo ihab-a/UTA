@@ -29,5 +29,6 @@ Route::middleware("auth")->group(function (){
     Route::apiResource("/queue", QueueController::class)->only(["index", "store"]);
 });
 
-    Route::get("/song/{song}/listen", [StreamController::class, "song"]);
-    Route::get("/playlist/{playlist}/listen", [StreamController::class, "playlist"]);
+Route::get("/song/{song}/listen", [StreamController::class, "song"]);
+Route::get("/playlist/{playlist}/listen", [StreamController::class, "playlist"]);
+Route::get("/profile/{user}", [AuthController::class, "profile"]);

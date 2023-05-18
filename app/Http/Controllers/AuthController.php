@@ -105,7 +105,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function logout(User $auth)
+    public function logout()
     {
         // delete the token to logout
         AUTH_TOKEN->delete();
@@ -113,5 +113,13 @@ class AuthController extends Controller
         return response()->json([
             "msg" => "logout successfull"
         ], 200);
+    }
+
+    public function profile(User $user){
+        if($user->profile === null) return ""; // TODO : add default profile
+
+        $file = File::_get($user->profile);
+
+        return response($file["content"], 200, $file["headers"]);
     }
 }
