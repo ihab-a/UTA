@@ -11,7 +11,6 @@ export default function Feed({ id, title, likes, user }){
 	const [searchTarget, setSearchTarget] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
 	const allowFetch = Store.allowFetch;
-	console.log(allowFetch)
 
 	const handleInput = (e) => {
 		setSearchTarget(e.target.value);

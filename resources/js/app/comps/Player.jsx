@@ -42,18 +42,18 @@ export default function Player(){
 
 
 	const togglePlay = () => {
-		setPlaying(!playing);
+		setPlaying(playing => !playing);
 	};
 	const toggleRepeat = () => {
 		player.current.loop = !repeat;
-		setRepeat(!repeat);
+		setRepeat(repeat => !repeat);
 	};
 	const toggleShuffle = () => {
-		setShuffle(!shuffle);
+		setShuffle(shuffle => !shuffle);
 	};
 	const toggleMuted = () => {
 		player.current.muted = !muted;
-		setMuted(!muted);
+		setMuted(muted => !muted);
 		hideVolumeBar();
 	};
 	const showVolumeBar = () => {
@@ -120,14 +120,22 @@ export default function Player(){
 	}, [song]);
 
 	useEffect(() => {
+
 		const handlePlaybackEnded = () => {
 			setPlaying(false);
 		};
+		const handleSpacePress = (e) => {
+			if(e.target.tagName === "INPUT") return;
+			if(e.code === "Space")
+				togglePlay();
+		};
 
 		player.current.addEventListener("ended", handlePlaybackEnded);
+		document.addEventListener("keypress", handleSpacePress);
 
         return () => {
         	player.current.removeEventListener("ended", handlePlaybackEnded);
+			document.removeEventListener("keypress", handleSpacePress);
         };
 	}, []);
 
