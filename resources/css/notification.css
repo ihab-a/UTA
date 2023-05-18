@@ -1,4 +1,5 @@
 .notif{
+	z-index: 9;
 	position: fixed;
 	inset: 0 0 auto 0;
 	padding: var(--size-m);
