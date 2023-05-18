@@ -30,6 +30,9 @@ class User extends Model
     function _plays(){
         return $this->belongsToMany(Song::class, "song_plays", "user", "song");
     }
+    function _queue(){
+        return $this->belongsToMany(Song::class, "queues", "user", "song")->withPivot("time");
+    }
     function _hadLikedSong($song){
         // if the song is a model object get the id
         $song = $song->id ?? $song;
