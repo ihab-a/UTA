@@ -19,16 +19,11 @@ class SongSeeder extends Seeder
             $path = "seeded_song_" . hash("sha256", $name) . "." . $file->getExtension();
 
             // Check if the file already exists
-            if (Storage::disk('public')->exists($path)) {
-                echo "'$path' already exists, skipping...\n";
-                continue; // Skip processing if the file already exists
+            if (!Storage::disk('public')->exists($path)) {
+                $stream = fopen($file->getPathname(), 'r');
+                Storage::disk('public')->put($path, $stream);
+                fclose($stream);
             }
-
-            $stream = fopen($file->getPathname(), 'r');
-
-            Storage::disk('public')->put($path, $stream);
-
-            fclose($stream);
 
             $file = File::create([
                 "path" => $path,
