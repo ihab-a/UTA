@@ -13,15 +13,10 @@ class SearchController extends Controller
     public function store(SearchRequest $req)
     {
         // get songs that match the query
-        $songs = Song::whereRaw("MATCH(title) AGAINST(?)", $req->q)
-            ->orderByRaw("MATCH(title) AGAINST(?) DESC", $req->q)
-            ->get();
+        $songs = Song::where("title", "like", "%{$req->q}%")->get();
 
         // get playlists that match the query
-        $playlists = Playlist::where("private", false)
-            ->whereRaw("MATCH(title) AGAINST(?)", $req->q)
-            ->orderByRaw("MATCH(title) AGAINST(?) DESC", $req->q)
-            ->get();
+        $playlists = Playlist::where("private", false)->where("title", "like", "%{$req->q}%")->get();
 
         return response()->json([
             "songs" => new SongCollection($songs),
