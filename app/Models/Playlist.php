@@ -13,6 +13,7 @@ class Playlist extends Model
         "description",
         "private",
         "user",
+        "file",
     ];
 
     function _user(){

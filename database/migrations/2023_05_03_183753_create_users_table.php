@@ -17,7 +17,14 @@ return new class extends Migration
             $table->string("email")->unique();
             $table->string("firstname")->nullable();
             $table->string("lastname")->nullable();
-            $table->string("profile")->nullable();
+            $table->unsignedBiginteger("profile")->nullable();
+
+            $table->foreign("profile")
+                ->references("id")
+                ->on("files")
+                ->onDelete("set null")
+                ->onUpdate("cascade");
+                
             $table->char("password", 60);
             $table->timestamps();
         });

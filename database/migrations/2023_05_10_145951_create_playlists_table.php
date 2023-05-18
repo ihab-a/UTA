@@ -18,6 +18,13 @@ return new class extends Migration
                 ->constrained("users", "id")
                 ->onDelete("cascade")
                 ->onUpdate("cascade");
+            $table->unsignedBiginteger("file")->nullable();
+
+            $table->foreign("file")
+                ->references("id")
+                ->on("files")
+                ->onDelete("set null")
+                ->onUpdate("cascade");
                 
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Playlist;
+use App\Models\File;
 use App\Http\Requests\PlaylistRequest;
 use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\PlaylistCollection;
@@ -24,6 +25,12 @@ class PlaylistController extends Controller
 
         $data["user"] = AUTH_USER->id;
 
+
+        if($req->hasFile("file")){
+            $file = File::_store("file");
+            $data["file"] = $file->id;
+        }
+
         $created = Playlist::create($data);
 
         return response()->json([
@@ -42,6 +49,16 @@ class PlaylistController extends Controller
         return new PlaylistResource($playlist);
     }
 
+    public function getImage(Playlist $playlist){
+        if($playlist->private && $playlist->user !== AUTH_USER->id)
+            return response()->json([
+                "msg" => "access denied"
+            ], 403);
+
+        $file = File::_get($playlist->file);
+        return response($file["content"], 200, $file["headers"]);
+    }
+
     public function update(PlaylistRequest $req, Playlist $playlist)
     {
         $data = $req->only([
@@ -51,6 +68,14 @@ class PlaylistController extends Controller
         ]);
 
         $data["user"] = AUTH_USER->id;
+
+
+        if($req->hasFile("profile")){
+            if($playlist->file)
+                $file = File::_delete(AUTH_USER->profile);
+            $file = File::_store("file");
+            $data["file"] = $file->id;
+        }
 
         $updated = $playlist->update($data);
 

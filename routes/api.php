@@ -23,6 +23,7 @@ Route::middleware("auth")->group(function (){
     Route::get("/playlist/liked", [SongLikeController::class, "index"]);
     Route::apiResource("/playlist", PlaylistController::class);
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);
+    Route::get("/playlist/{playlist}/image", [PlaylistController::class, "getImage"]);
     Route::delete("/playlist/{playlist}/song", [PlaylistSongController::class, "destroy"]);
     Route::post("/search", [SearchController::class, "store"]);
     Route::apiResource("/for-you", SuggestionController::class)->only(["index", "store"]);

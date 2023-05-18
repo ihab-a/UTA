@@ -16,6 +16,7 @@ class PlaylistResource extends JsonResource
             "description" => $this->description,
             "private" => $this->private,
             "user" => new UserResource($this->_user),
+            "image" => $this->file,
         ];
     }
 }

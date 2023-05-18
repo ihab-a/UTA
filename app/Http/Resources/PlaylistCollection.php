@@ -14,6 +14,7 @@ class PlaylistCollection extends ResourceCollection
             return [
                 "id" => $playlist->id,
                 "title" => $playlist->title,
+                "image" => $playlist->file,
                 "user" => new ShortUserResource($playlist->_user),
             ];
         });
