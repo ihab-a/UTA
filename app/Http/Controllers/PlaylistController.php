@@ -11,10 +11,7 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        // playlist suggestions
-        return new PlaylistCollection(
-            Playlist::where("private", false)->inRandomOrder()->limit(10)->get()
-        );
+        return new PlaylistCollection(AUTH_USER->_playlists);
     }
 
     public function store(PlaylistRequest $req)

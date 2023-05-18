@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Song;
+use App\Models\Playlist;
 use App\Http\Requests\SuggestionRequest;
 use App\Http\Resources\SongCollection;
+use App\Http\Resources\PlaylistCollection;
 use Illuminate\Support\Facades\DB;
 
 class SuggestionController extends Controller
@@ -13,7 +15,7 @@ class SuggestionController extends Controller
     {
         // returns suggestions based on AUTH_USER seen songs 
 
-        $res = [];
+        $songs = [];
 
         // number of songs to suggest
         $count = 20;
@@ -28,12 +30,10 @@ class SuggestionController extends Controller
             ->orderBy('factor', 'DESC')
             ->get();
 
-        if($targetGenres->count() === 0) return response()->json([], 200);
-
         $factorTotal = $targetGenres->sum("factor");
 
         foreach($targetGenres as $genre){
-            array_push($res, ...Song::inRandomOrder()
+            array_push($songs, ...Song::inRandomOrder()
                 ->whereHas("_genres", function ($q) use($count, $genre, $factorTotal){
                     $q->where("id", $genre->id);
                 })->limit(floor($count * $genre->factor / $factorTotal))->get()
@@ -41,9 +41,17 @@ class SuggestionController extends Controller
         }
 
         // add the rest as random
-        array_push($res, ...Song::inRandomOrder()->limit($count - count($res))->get());
+        array_push($songs, ...Song::inRandomOrder()->limit($count - count($songs))->get());
 
-        return response()->json(new SongCollection($res), 200);
+        // playlist suggestions
+        $playlists =  new PlaylistCollection(
+            Playlist::where("private", false)->inRandomOrder()->limit($count)->get()
+        );
+
+        return response()->json([
+            "songs" => new SongCollection($songs),
+            "playlists" => new PlaylistCollection($playlists),
+        ], 200);
     }
 
     public function store(SuggestionRequest $req)
