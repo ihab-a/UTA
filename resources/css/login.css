@@ -90,7 +90,7 @@ body {
     margin-bottom: 1rem;
     font-size: 0.8rem;
     background-color: #0000;
-    color: #494646;
+    color: var(--color-light);
   }
   
   .login-input:focus {
