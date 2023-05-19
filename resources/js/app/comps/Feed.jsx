@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { fetchSongAll } from "/resources/js/api/song";
+import { getSuggestions } from "/resources/js/api/suggestion";
 import search from "/resources/js/api/search";
 import Input from "./Input"
 import Song from "./Song";
@@ -7,7 +8,8 @@ import { store } from '../index';
 
 export default function Feed({ id, title, likes, user }){
 	const Store = useContext(store)
-	const [data, setData] = useState([]);
+	const [randomSongs, setRandomSongs] = useState([]);
+	const [forYou, setForYou] = useState([]);
 	const [searchTarget, setSearchTarget] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
 	const allowFetch = Store.allowFetch;
@@ -17,8 +19,10 @@ export default function Feed({ id, title, likes, user }){
 	}
 
 	useEffect(() => {
-		if(allowFetch)
-			fetchSongAll().then(d => setData(d));
+		if(allowFetch){
+			fetchSongAll().then(d => setRandomSongs(d));
+			getSuggestions().then(d => setForYou(d));
+		}
 	}, [allowFetch]);
 
 	useEffect(() => {
@@ -31,9 +35,9 @@ export default function Feed({ id, title, likes, user }){
 
 	return <div>
 		<Input type="text" value={searchTarget} onInput={handleInput} placeholder="search songs and playlists"/>
+		{searchResult.songs?.length ?
 		<div className="border margin-h">
-			{searchResult.songs?.length ? 
-				`search search song results (${searchResult.songs?.length})` : null}
+			<h4>search song results ({searchResult.songs?.length})</h4>
 			<div className="flex-h">
 				{
 					searchResult.songs?.map((song) => {
@@ -42,9 +46,10 @@ export default function Feed({ id, title, likes, user }){
 				}
 			</div>
 		</div>
+		: null}
+		{searchResult.playlists?.length ?
 		<div className="border margin-h">
-			{searchResult.playlists?.length ? 
-				`search search playlist results (${searchResult.playlists?.length})` : null}
+			<h4>search playlist results ({searchResult.songs?.length})</h4>
 			<div className="flex-h">
 				{
 					searchResult.playlists?.map((playlist) => {
@@ -53,14 +58,42 @@ export default function Feed({ id, title, likes, user }){
 				}
 			</div>
 		</div>
+		: null}
+		{forYou.songs?.length ?
 		<div className="border margin-h">
+		<h4>songs suggested for you</h4>
 			<div className="flex-h">
 				{
-					data.map((song) => {
+					forYou.songs?.map((song) => {
 						return <Song {...song} key={song.id}/>;
 					})
 				}
 			</div>
 		</div>
+		: null}
+		{forYou.playlists?.length ?
+		<div className="border margin-h">
+		<h4>songs suggested for you</h4>
+			<div className="flex-h">
+				{
+					forYou.songs?.map((song) => {
+						return <Song {...song} key={song.id}/>;
+					})
+				}
+			</div>
+		</div>
+		: null}
+		{randomSongs ?
+		<div className="border margin-h">
+		<h4>random songs</h4>
+			<div className="flex-h">
+				{
+					randomSongs.map((song) => {
+						return <Song {...song} key={song.id}/>;
+					})
+				}
+			</div>
+		</div>
+		: null}
 	</div>
 }
