@@ -1,57 +1,73 @@
 
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { store } from '../index';
+import { useNavigate } from 'react-router-dom';
 import '/resources/css/side-panel.css';
-import panelprofilee from "/resources/assets/panelprofile.jpg";
-import logout from "/resources/assets/icon _logout_.png";
-import edite from "/resources/assets/icon _user edit_.png";
+import panelProfileIcon from "/resources/assets/panelprofile.jpg";
+import logoutIcon from "/resources/assets/icon _logout_.png";
+import editIcon from "/resources/assets/icon _user edit_.png";
 import logo from "/resources/assets/logo.svg";
-import panelprofile from "/resources/assets/icon _profile circle_.png";
+import { logout } from '/resources/js/api/auth';
+import { myPlaylists, fetchPlaylistImage } from '/resources/js/api/playlist';
+
 export default function Player(){
 	const Store = useContext(store);
 	const user = Store.user.get();
+	const [playlists, setPlaylists] = useState([]);
+	const allowFetch = Store.allowFetch;
+	const goto = useNavigate();
+
+	useEffect(() => {
+		(async () => {
+			try{
+				const data = await myPlaylists()
+				for (let playlist of data){
+					playlist.img = await fetchPlaylistImage(playlist.id);
+				}
+				setPlaylists(data);
+			}catch(err){
+				console.log(err)
+				Store.notify(`error occured : ${err.response?.data?.error ?? "unexpected error"}`);
+			}
+		})();
+	}, [allowFetch]);
+
 	return <div id="side-panel" className="border">
 		<div className='panel-header'>
 			<div className='logo-icon'>
 				<img src={logo} alt="background" className="background-image" />
 			</div>
 			<div className='options'>
-				<div className="edit">
-				<img src={edite} alt="background" className="background-image" />
+				<div className="edit" onClick={() => goto("/profile")}>
+				<img src={editIcon} alt="background" className="background-image" />
 				</div>
 				
 				<div className="user-img">
-					<img src={panelprofile} alt="background" className="background-image" />
+					<img src={panelProfileIcon} alt="background" className="background-image" />
 				</div>
 				
 				<div className="logout">
-				<img src={logout} alt="background" className="background-image" />
+				<img src={logoutIcon} alt="background" className="background-image" onClick={() => {
+					logout()
+						.then(() => window.location.reload())
+						.catch(() => Store.notify("unexpected error"))
+				}}/>
 				</div>
 				
 			</div>
 			<div className='user-name'>{user.username}</div>
 			
 		</div>	
+		<p className='title-playlist'> My playlists</p>
 		<div className='panel-playList'>
-			 <p className='title-playlist'> My playlists</p>
-			 <div>
-			 <div className="playlist-item border">
-				<img src={panelprofile} alt="background" className="avatar" />
-				<p className="playlist-title">my playlist 1</p>
-			</div>
-			<div className="playlist-item border">
-				<img src={panelprofile} alt="background" className="avatar" />
-				<p className="playlist-title">my playlist 2</p>
-			</div>
-			<div className="playlist-item border">
-				<img src={panelprofile} alt="background" className="avatar" />
-				<p className="playlist-title">my playlist 3</p>
-			</div>
-			<div className="playlist-item border">
-				<img src={panelprofile} alt="background" className="avatar" />
-				<p className="playlist-title">my playlist 4</p>
-			</div>
-			 </div>
+			{
+				playlists.map(playlist => {
+					return <div className="border playlist-item" key={playlist.id}>
+						<img src={playlist.img} alt="background" className="avatar" />
+						<p className="playlist-title">{playlist.title}</p>
+					</div>
+				})
+			}
 	  	</div>
 	 	
 </div>

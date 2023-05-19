@@ -1,22 +1,22 @@
 #side-panel {
 	width: var(--panel-size);
-	padding: 15px;
+	padding: var(--size-s);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	gap:2rem;
-	border-radius: var(--size-l);
+	gap:var(--size-s);
+	border-radius: var(--size-s);
 }
 
 .panel-header {
 	height: fit-content;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	gap: 8px;
 }
 
 .logo-icon img{
@@ -30,16 +30,10 @@
 	justify-content: space-between;
 }
 
-.options .edit {
-	margin-right: 10px;
-}
-
-.options .logout {
-	margin-left: 10px;
-}
 
 
 .options .user-img img {
+	margin: .4rem;
 	width: 5.2rem;
 	height: 5.2rem;
 	border-radius: 50%;
@@ -53,7 +47,7 @@
 	padding: var(--size-xs);
 	border-radius: var(--size-s);
 	border: 1px solid #0000;
-	width: 2.2rem;
+	width: 2rem;
 }
   
 .edit:hover {
@@ -71,7 +65,7 @@
 		padding: var(--size-xs);
 		border-radius: var(--size-s);
 		border: 1px solid #0000;
-		width: 2.2rem;
+		width: 2rem;
 	}
 .logout:hover {
 		background-color: var(--color-m-t);
@@ -97,10 +91,10 @@
 			bottom: -10px; /* Adjust the value to position the underline properly */
 			left: 50%;
 			transform: translateX(-50%);
-			width: 8rem; /* Increase the width to make the underline longer */
+			width: 150%; /* Increase the width to make the underline longer */
 			height: .2rem;
 			border-radius: 0.3rem;
-			background-color: rgb(255, 255, 255);
+			background-color: var(--color-light);
 }
 
 /* .panel-playList {
@@ -139,32 +133,38 @@
   }
    */
 .playlist-item {
-	width: 11rem;
+	width: 100%;
 	height:3.5rem;
 	border-radius: 0.1rem;
-	padding: 10px;
+	padding: var(--size-xl) var(--size-sm) !important;
 	display: flex;
 	align-items:center;
 	justify-content:flex-start;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	gap: 0.4rem;
 	margin-bottom: 0.5rem;
-	
   }
+.playlist-item:hover{
+	background-color: var(--color-m-t);
+	cursor: pointer;
+}
+
 .playlist-title{
 	font-size: .9rem;
 }
 .avatar{
-	width: 2.4rem;
-	height: 2.4rem;
+	width: 2rem;
+	height: 2rem;
 	border-radius: 50%;
 	object-fit: cover;
 }
 .panel-playList{
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap:1rem;
+	gap:.4rem;
+	overflow: auto;
 }
 .title-playlist{
 	text-align:center;

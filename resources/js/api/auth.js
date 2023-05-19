@@ -22,4 +22,13 @@ async function signup(username, email, password){
 	return response.data;
 }
 
-export { fetchUser, login, signup };
+async function logout(){
+	const response = await axios.delete(`/api/auth/logout`, {
+		headers: {
+			Authorization: localStorage.token ?? ""
+		}
+	});
+	return response.data;
+}
+
+export { fetchUser, login, signup, logout };
