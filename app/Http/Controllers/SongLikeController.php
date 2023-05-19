@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use App\Http\Resources\SongCollection;
+use App\Http\Resources\SongResource;
 
 class SongLikeController extends Controller
 {
@@ -22,8 +23,8 @@ class SongLikeController extends Controller
 
         $res = count($res["attached"]) ? true : false;
 
-        return response()->json([
-            "msg" => "song ". ($res ? "liked" : "disliked") ." successfully",
-        ], 200);
+        return response()->json(
+            new SongResource($song)
+        , 200);
     }
 }

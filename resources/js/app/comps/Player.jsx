@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import '/resources/css/player.css';
-import { fetchSong } from '/resources/js/api/song.js';
+import { fetchSong, likeSong } from '/resources/js/api/song.js';
 import { store } from '../index';
 
 import playIcon from '/resources/assets/play.png';
@@ -15,9 +15,11 @@ import mutedIcon from '/resources/assets/muted.png';
 import playlistIcon from '/resources/assets/add-to-playlist.png';
 import nextIcon from '/resources/assets/next.png';
 import previousIcon from '/resources/assets/previous.png';
+import heartIcon from '/resources/assets/heart.png';
+import heartLikedIcon from '/resources/assets/heart-liked.png';
 
 export default function Player(){
-	const [playOnSongChange, setPlayOnSongChange] = useState(true);
+	const [playOnSongChange, setPlayOnSongChange] = useState(false);
 	const [target, setTarget] = useState(7);
 	const [playing, setPlaying] = useState(false);
 	const [volume, setVolume] = useState(1);
@@ -72,6 +74,16 @@ export default function Player(){
         return `${minutes}:${seconds}`;
     };
 
+    const handleLike = (e) => {
+    	// to fallback in case of error
+    	const oldSong = {...song};
+    	const sign = [-1, 1];
+    	setPlayOnSongChange(false);
+    	setSong(s => {return {...s, liked: !s.liked, likes: song.likes + 1 * sign[+!song.liked]}});
+
+    	likeSong(song.id)
+    		.catch(d => setSong(oldSong));
+    };
     const handleSeek = (e) => {
     	if(!player.current.duration) return;
     	setDuration((e.nativeEvent.offsetX / e.target.clientWidth) * player.current.duration);
@@ -111,12 +123,12 @@ export default function Player(){
 	}, [target, allowFetch]);
 
 	useEffect(() => {
-		// only if song is fetched allow play on song change
-		if(song.id && playOnSongChange) setPlayOnSongChange(false);
-
 		// don't play directly on first render
-		if(!playOnSongChange)
+		if(playOnSongChange)
 			setPlaying(true);
+
+		// only if song is fetched allow play on song change
+		if(song.id && !playOnSongChange) setPlayOnSongChange(true);
 	}, [song]);
 
 	useEffect(() => {
@@ -145,7 +157,10 @@ export default function Player(){
 			<div id="player-text">
 				<div className="text-truncate">{song.title}</div>
 				<div className="text-truncate">{song.user?.username}</div>
-				<div className="text-truncate">♡ {song.likes}</div>
+				<div className="text-truncate flex-h">
+					<img src={song.liked ? heartLikedIcon : heartIcon} onClick={handleLike} className="icon"/>
+					<div style={{margin: "0 var(--size-s)"}}>{song.likes}</div>
+				</div>
 			</div>
 		</div>
 
