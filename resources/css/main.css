@@ -82,18 +82,23 @@ html::-moz-scrollbar-thumb:hover {
 .grid{
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
 }
 .grid>*{
 	width: 8rem;
 	margin: var(--size-m);
 }
-.flex-h{
+.flex-h, .flex-v{
 	display: flex;
 	width: 100%;
 	overflow: scroll hidden;
 	margin: var(--size-s) 0;
 	padding: 0;
 	align-items: center;
+}
+.flex-v{
+	flex-direction: column;
 }
 .text-truncate{
 	white-space: nowrap;

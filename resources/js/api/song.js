@@ -20,4 +20,11 @@ async function likeSong(id){
 	return response.data;
 }
 
-export { fetchSong, fetchSongAll, likeSong };
+async function getLiked(){
+	const response = await axios.get(`/api/song/liked`, {headers : {
+		Authorization: localStorage.token ?? ""
+	}});
+	return response.data;
+}
+
+export { fetchSong, fetchSongAll, likeSong, getLiked };

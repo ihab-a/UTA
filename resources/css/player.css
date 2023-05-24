@@ -38,7 +38,6 @@
 	justify-content: center;
 }
 #seekbar{
-	--progress: 90%;
 	height: var(--size-s);
 	width: 90%;
 	border: 1px solid var(--color-m);
@@ -47,21 +46,25 @@
 #seekbar:hover{
 	height: var(--size-sm);
 }
-#seekbar:after{
+#seekbar:after, #seekbar:before{
 	transition-property: width, height;
 	transition-duration: var(--time-s);
 	content: "";
 	position: absolute;
 	left: 0;
 	top: 0;
-	bottom: 0;
-	margin: auto;
-	height: 80%;
+	height: 100%;
+}
+#seekbar:hover:after, #seekbar:hover:before{
+	height: 100%;
+}
+#seekbar:before{
+	width: var(--buffered);
+	background-color: var(--color-buffer);
+}
+#seekbar:after{
 	width: var(--progress);
 	background-color: var(--color-m);
-}
-#seekbar:hover:after{
-	height: 100%;
 }
 #seekbar-group>*{
 	margin: 0 var(--size-s);

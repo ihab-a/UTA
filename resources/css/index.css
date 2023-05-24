@@ -26,11 +26,14 @@
 	--color-m: #bb22e9;
 	--color-m-t: #6E4E9833;
 	--color-a: #CD495C;
+	--color-a-t: #CD495C33;
 	--color-s: #060413;
 	--color-s-t: #06041399;
 	--color-light: #D4D8E8;
 	--color-light-m: #989ba6;
+	--color-light-t: #989ba644;
 	--color-success: #158D8D;
+	--color-buffer: #CD495C33;
 
 	--size-xs: .2rem;
 	--size-s: .4rem;

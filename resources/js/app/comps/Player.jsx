@@ -20,7 +20,9 @@ import heartLikedIcon from '/resources/assets/heart-liked.png';
 
 export default function Player(){
 	const [playOnSongChange, setPlayOnSongChange] = useState(false);
-	const [target, setTarget] = useState(7);
+	const [firstRender, setFirstRender] = useState(true);
+	const [ready, setReady] = useState(null);
+	const [target, setTarget] = useState(212);
 	const [playing, setPlaying] = useState(false);
 	const [volume, setVolume] = useState(1);
 	const [repeat, setRepeat] = useState(false);
@@ -29,6 +31,8 @@ export default function Player(){
 	const [volumeBar, setVolumeBar] = useState(false);
 	const [song, setSong] = useState({});
 	const [duration, setDuration] = useState(0);
+	const [buffered, setBuffered] = useState(0);
+	const [maxDuration, setMaxDuration] = useState(0);
 	const Store = useContext(store);
 	const player = useRef(new Audio());
 	const allowFetch = Store.allowFetch;
@@ -44,7 +48,8 @@ export default function Player(){
 
 
 	const togglePlay = () => {
-		setPlaying(playing => !playing);
+		if(ready)
+			setPlaying(playing => !playing);
 	};
 	const toggleRepeat = () => {
 		player.current.loop = !repeat;
@@ -116,20 +121,25 @@ export default function Player(){
 	}, [playing]);
 
 	useEffect(() => {
-		player.current.src = `/api/song/${target}/listen`;
 		setPlaying(false);
-		if(allowFetch && target !== null)
+		if(allowFetch && target !== null){
+			player.current.src = `/api/song/${target}/listen`;
 			fetchSong(target).then(d => setSong(d));
+		}
 	}, [target, allowFetch]);
 
 	useEffect(() => {
-		// don't play directly on first render
-		if(playOnSongChange)
-			setPlaying(true);
+		const pause = () => setPlaying(false);
+		const play = () => setPlaying(true);
 
-		// only if song is fetched allow play on song change
-		if(song.id && !playOnSongChange) setPlayOnSongChange(true);
-	}, [song]);
+		player.current.addEventListener("play", play);
+		player.current.addEventListener("pause", pause);
+
+		return () => {
+			player.current.addEventListener("play", play);
+			player.current.addEventListener("pause", pause);
+		};
+	}, []);
 
 	useEffect(() => {
 
@@ -141,17 +151,37 @@ export default function Player(){
 			if(e.code === "Space")
 				togglePlay();
 		};
+		const handleSongReady = () => {
+			console.log("song ready!")
+			setPlaying(!firstRender || playOnSongChange)
+			if(!playOnSongChange)
+				setPlayOnSongChange(true);
+			if(firstRender)
+				setFirstRender(false);
+			setDuration(0);
+			setMaxDuration(player.current.duration);
+			setReady(true);
+		};
+		const handleSongBuffer = () => {
+			if(player.current.buffered.length)
+				setBuffered((player.current.buffered.end(0) / player.current.duration) * 100);
+		};
 
 		player.current.addEventListener("ended", handlePlaybackEnded);
+		player.current.addEventListener("loadedmetadata", handleSongReady);
+		player.current.addEventListener("progress", handleSongBuffer);
 		document.addEventListener("keypress", handleSpacePress);
 
         return () => {
         	player.current.removeEventListener("ended", handlePlaybackEnded);
+			player.current.removeEventListener("loadedmetadata", handleSongReady);
+			player.current.removeEventListener("progress", handleSongBuffer);
 			document.removeEventListener("keypress", handleSpacePress);
         };
-	}, []);
+	}, [song]);
 
 	return <div id="player" className="border">
+		{ready?
 		<div id="player-meta" className="border">
 			<img id="player-image" src="https://random.imagecdn.app/200/200"/>
 			<div id="player-text">
@@ -163,6 +193,7 @@ export default function Player(){
 				</div>
 			</div>
 		</div>
+		:null}
 
 		<div id="player-controls" className="border">
 			<div id="player-buttons">
@@ -176,8 +207,9 @@ export default function Player(){
 				<div>{formatTime(duration)}</div>
 				<div id="seekbar" onMouseDown={handleSeek} style={{
 					"--progress" : `${Math.min((duration / player.current.duration) * 100, 100)}%`,
+					"--buffered" : `${buffered}%`,
 				}}></div>
-				<div>{formatTime(player.current.duration)}</div>
+				<div>{formatTime(maxDuration)}</div>
 			</div>
 		</div>
 

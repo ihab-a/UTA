@@ -15,12 +15,12 @@ Route::middleware("auth")->group(function (){
     Route::put("/auth", [AuthController::class, "update"]);
     Route::delete("/auth", [AuthController::class, "destroy"]);
 
+    Route::get("/song/liked", [SongLikeController::class, "index"]);
     Route::apiResource("/song", SongController::class);
     Route::post("/song/{song}/like", [SongLikeController::class, "store"]);
     Route::apiResource("/song/{song}/genre", SongGenreController::class)->only(["store"]);
     Route::delete("/song/{song}/genre", [SongGenreController::class, "destroy"]);
     Route::apiResource("/notification", NotificationController::class)->only(["index", "update", "destroy"]);
-    Route::get("/playlist/liked", [SongLikeController::class, "index"]);
     Route::apiResource("/playlist", PlaylistController::class);
     Route::apiResource("/playlist/{playlist}/song", PlaylistSongController::class)->only(["store", "index"]);
     Route::get("/playlist/{playlist}/image", [PlaylistController::class, "getImage"]);
@@ -31,5 +31,4 @@ Route::middleware("auth")->group(function (){
 });
 
 Route::get("/song/{song}/listen", [StreamController::class, "song"]);
-Route::get("/playlist/{playlist}/listen", [StreamController::class, "playlist"]);
 Route::get("/profile/{user}", [AuthController::class, "profile"]);
