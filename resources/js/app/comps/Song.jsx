@@ -5,11 +5,11 @@ import heartLikedIcon from '/resources/assets/heart-liked.png';
 
 import '/resources/css/song.css';
 
-export default function Song({ id, title, likes, user }){
+export default function Song({ id, title, likes, user, queue, offset }){
 	const Store = useContext(store);
 
 	const handleClick = () => {
-		Store.player.setTarget(id);
+		Store.player.play(queue, offset);
 	}
 	return <div className="song" onClick={handleClick} title={title}>
 		<img src="https://random.imagecdn.app/200/200" className="song-image"/>

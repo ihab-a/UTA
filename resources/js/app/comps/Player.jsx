@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import '/resources/css/player.css';
 import { fetchSong, likeSong } from '/resources/js/api/song.js';
+import { getQueue, saveQueue } from '/resources/js/api/queue.js';
 import { store } from '../index';
 
 import playIcon from '/resources/assets/play.png';
@@ -22,7 +23,8 @@ export default function Player(){
 	const [playOnSongChange, setPlayOnSongChange] = useState(false);
 	const [firstRender, setFirstRender] = useState(true);
 	const [ready, setReady] = useState(null);
-	const [target, setTarget] = useState(212);
+	const [queue, setQueue] = useState([]);
+	const [offset, setOffset] = useState(0);
 	const [playing, setPlaying] = useState(false);
 	const [volume, setVolume] = useState(1);
 	const [repeat, setRepeat] = useState(false);
@@ -79,6 +81,23 @@ export default function Player(){
         return `${minutes}:${seconds}`;
     };
 
+    const nextSong = () => {
+    	setOffset(offset => (offset + 1) % queue.length);
+    }
+    const previousSong = () => {
+    	setOffset(offset => {
+    		if(offset - 1 > 0)
+    			return offset - 1;
+    		else
+    			return (queue.length + offset - 1) % queue.length;
+    	});
+    }
+    const randomSong = () => {
+    	const of = Math.trunc(Math.random() * queue.length);
+    	console.log(of);
+    	setOffset(of);
+    }
+
     const handleLike = (e) => {
     	// to fallback in case of error
     	const oldSong = {...song};
@@ -101,7 +120,16 @@ export default function Player(){
 		player.current.volume = newVolume;
     }
 
-	Store.player = {target, setTarget};
+	Store.player = {
+		queue,
+		setQueue,
+		offset,
+		setOffset,
+		play : (queue, offset) => {
+			setQueue(queue);
+			setOffset(offset);
+		}
+	};
 
 	useEffect(() => {
 		let updateDuration;
@@ -122,11 +150,23 @@ export default function Player(){
 
 	useEffect(() => {
 		setPlaying(false);
-		if(allowFetch && target !== null){
-			player.current.src = `/api/song/${target}/listen`;
-			fetchSong(target).then(d => setSong(d));
+		if(allowFetch && queue.length){
+			player.current.src = `/api/song/${queue[offset].id}/listen`;
+			fetchSong(queue[offset].id).then(d => setSong(d));
 		}
-	}, [target, allowFetch]);
+	}, [queue, offset, allowFetch]);
+
+	useEffect(() => {
+		if(!firstRender)
+			queue.length && saveQueue(queue, offset);
+	}, [queue, offset])
+
+	useEffect(() => {
+		allowFetch && getQueue().then(d => {
+			setQueue(d.queue);
+			setOffset(d.offset);
+		});
+	}, [allowFetch]);
 
 	useEffect(() => {
 		const pause = () => setPlaying(false);
@@ -144,7 +184,11 @@ export default function Player(){
 	useEffect(() => {
 
 		const handlePlaybackEnded = () => {
-			setPlaying(false);
+			// let media player handle song repeat
+			if(repeat) return;
+
+			if(shuffle) return randomSong()
+			nextSong();
 		};
 		const handleSpacePress = (e) => {
 			if(e.target.tagName === "INPUT") return;
@@ -152,7 +196,6 @@ export default function Player(){
 				togglePlay();
 		};
 		const handleSongReady = () => {
-			console.log("song ready!")
 			setPlaying(!firstRender || playOnSongChange)
 			if(!playOnSongChange)
 				setPlayOnSongChange(true);
@@ -185,8 +228,8 @@ export default function Player(){
 		<div id="player-meta" className="border">
 			<img id="player-image" src="https://random.imagecdn.app/200/200"/>
 			<div id="player-text">
-				<div className="text-truncate">{song.title}</div>
-				<div className="text-truncate">{song.user?.username}</div>
+				<div className="text-truncate" title={`song name: ${song.title}`}>{song.title}</div>
+				<div className="text-truncate" title={`author: ${song.user?.username}`}>@ {song.user?.username}</div>
 				<div className="text-truncate flex-h">
 					<img src={song.liked ? heartLikedIcon : heartIcon} onClick={handleLike} className="icon"/>
 					<div style={{margin: "0 var(--size-s)"}}>{song.likes}</div>
@@ -198,9 +241,9 @@ export default function Player(){
 		<div id="player-controls" className="border">
 			<div id="player-buttons">
 				<img className="icon-s" onClick={toggleRepeat} src={repeat ? repeatIcon : noRepeatIcon}/>
-				<img className="icon" src={previousIcon}/>
+				<img className="icon" src={previousIcon} onClick={() => previousSong()}/>
 				<img className="icon-b" onClick={togglePlay} src={playing ? pauseIcon : playIcon}/>
-				<img className="icon" src={nextIcon}/>
+				<img className="icon" src={nextIcon} onClick={() => nextSong()}/>
 				<img className="icon-s" onClick={toggleShuffle} src={shuffle ? shuffleIcon : noShuffleIcon}/>
 			</div>
 			<div className="flex-h" id="seekbar-group">

@@ -17,12 +17,13 @@ class QueueController extends Controller
 
     public function store(QueueRequest $req)
     {
-        $queue = AUTH_USER->_queue();
-        $queue->sync($req->queue);
+        AUTH_USER->_queue()->sync($req->queue);
+        AUTH_USER->update([
+            "queue_offset" => $req->offset,
+        ]);
 
         return response()->json([
             "msg" => "success",
-            "queue" => new QueueCollection($queue->get()),
         ]);
     }
 }

@@ -45,7 +45,7 @@ export default function Feed({ id, title, likes, user }){
 			title={`search playlist results (${searchResult.playlists?.length})`} 
 			data={searchResult.playlists}/>
 		<SongContainer title="Songs for you" data={forYou.songs}/>
-		<SongContainer title="Songs you liked" data={forYou.songs}/>
-		<SongContainer title="Random songs" data={forYou.songs}/>
+		<SongContainer title="Songs you liked" data={likedSongs}/>
+		<SongContainer title="Random songs" data={randomSongs}/>
 	</div>
 }

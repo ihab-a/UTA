@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("email")->unique();
             $table->string("firstname")->nullable();
             $table->string("lastname")->nullable();
+            $table->unsignedInteger("queue_offset")->nullable();
             $table->unsignedBiginteger("profile")->nullable();
 
             $table->foreign("profile")

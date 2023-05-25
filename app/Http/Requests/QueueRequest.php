@@ -19,6 +19,7 @@ class QueueRequest extends FormRequest
         if($method === "POST")
             return [
                 "queue" => "required|array",
+                "offset" => "required|integer",
                 "queue.*.song" => "required|exists:songs,id",
                 "queue.*.time" => "int",
             ];

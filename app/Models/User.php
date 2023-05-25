@@ -15,6 +15,7 @@ class User extends Model
         "lastname",
         "password",
         "profile",
+        "queue_offset",
     ];
     function _tokens(){
         return $this->hasMany(Token::class, "user");

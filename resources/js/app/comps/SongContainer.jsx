@@ -33,8 +33,8 @@ export default function SongContainer({ data, title }){
 		</h4>
 		<div className={`${expanded ? "grid" : "flex-h"}`} ref={content}>
 			{
-				data?.map((song) => {
-					return <Song {...song} key={song.id}/>;
+				data?.map((song, i) => {
+					return <Song {...song} queue={data} offset={i} key={song.id}/>;
 				})
 			}
 		</div>
