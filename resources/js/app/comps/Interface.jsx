@@ -6,6 +6,7 @@ import Player from './Player';
 import Error from './Error';
 import Home from './Home';
 import Profile from './Profile';
+import CreateSong from './CreateSong';
 import '/resources/css/main.css';
 
 export default function Interface(props){
@@ -17,6 +18,7 @@ export default function Interface(props){
 						<Routes>
 							<Route path="/" element={<Home/>}/>
 							<Route path="/profile" element={<Profile/>}/>
+							<Route path="/song/new" element={<CreateSong/>}/>
 							<Route path="*" element={<Error code="404"/>}/>
 						</Routes>
 				</section>

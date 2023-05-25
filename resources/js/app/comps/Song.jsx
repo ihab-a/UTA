@@ -7,7 +7,6 @@ import '/resources/css/song.css';
 
 export default function Song({ id, title, likes, user, liked, queue, offset }){
 	const Store = useContext(store);
-	console.log(liked)
 
 	const handleClick = () => {
 		Store.player.play(queue, offset);

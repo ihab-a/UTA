@@ -192,8 +192,10 @@ export default function Player(){
 		};
 		const handleSpacePress = (e) => {
 			if(e.target.tagName === "INPUT") return;
-			if(e.code === "Space")
+			if(e.code === "Space"){
+				e.preventDefault();
 				togglePlay();
+			}
 		};
 		const handleSongReady = () => {
 			setPlaying(!firstRender || playOnSongChange)

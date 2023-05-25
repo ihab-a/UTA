@@ -14,7 +14,7 @@ export default function Nav(){
 				<div className="icon-container" onClick={() => goto("/")}>
 					<img src={home} alt="background" className="background-image" />
 				</div>
-				<div className="icon-container" onClick={() => goto("/profile")}>
+				<div className="icon-container" onClick={() => goto("/song/new")}>
 					<img src={uploadSong} alt="background" className="background-image" />
 				</div>
 				<div className="icon-container">
