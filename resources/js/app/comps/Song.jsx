@@ -5,8 +5,9 @@ import heartLikedIcon from '/resources/assets/heart-liked.png';
 
 import '/resources/css/song.css';
 
-export default function Song({ id, title, likes, user, queue, offset }){
+export default function Song({ id, title, likes, user, liked, queue, offset }){
 	const Store = useContext(store);
+	console.log(liked)
 
 	const handleClick = () => {
 		Store.player.play(queue, offset);
@@ -14,10 +15,10 @@ export default function Song({ id, title, likes, user, queue, offset }){
 	return <div className="song" onClick={handleClick} title={title}>
 		<img src="https://random.imagecdn.app/200/200" className="song-image"/>
 		<div className="text-truncate">{title}</div>
+		<div className="text-truncate">@ {user.username}</div>
 		<div className="flex-h">
-			<img src={heartIcon} className="icon-s"/>
+			<img src={liked ? heartLikedIcon : heartIcon} className="icon-s"/>
 			<span className="margin-v">{likes}</span>
 		</div>
-		<div className="text-truncate">@ {user.username}</div>
 	</div>
 }

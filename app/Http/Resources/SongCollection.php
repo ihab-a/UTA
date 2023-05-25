@@ -16,7 +16,7 @@ class SongCollection extends ResourceCollection
                 "title" => $song->title,
                 "likes" => $song->_likes()->count(),
                 "user" => new ShortUserResource($song->_user),
-                "liked" => defined(AUTH_USER) ? Song::find(1)->whereHas("_likes", fn($q)=>$q->where("id", AUTH_USER))->exists() : false,
+                "liked" => defined("AUTH_USER") ? AUTH_USER->_hadLikedSong($song->id) : false,
             ];
         });
     }
