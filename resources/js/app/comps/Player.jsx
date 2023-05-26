@@ -93,9 +93,7 @@ export default function Player(){
     	});
     }
     const randomSong = () => {
-    	const of = Math.trunc(Math.random() * queue.length);
-    	console.log(of);
-    	setOffset(of);
+    	setOffset(Math.trunc(Math.random() * queue.length));
     }
 
     const handleLike = (e) => {
@@ -151,14 +149,15 @@ export default function Player(){
 	useEffect(() => {
 		setPlaying(false);
 		if(allowFetch && queue.length){
+			setReady(false);
 			player.current.src = `/api/song/${queue[offset].id}/listen`;
-			fetchSong(queue[offset].id).then(d => setSong(d));
+			setSong(queue[offset]);
 		}
 	}, [queue, offset, allowFetch]);
 
 	useEffect(() => {
-		if(!firstRender)
-			queue.length && saveQueue(queue, offset);
+		if(!firstRender && queue.length)
+			return saveQueue(queue, offset);
 	}, [queue, offset])
 
 	useEffect(() => {
@@ -182,20 +181,56 @@ export default function Player(){
 	}, []);
 
 	useEffect(() => {
+		const handleKeyPress = (e) => {
+			if(e.target.tagName === "INPUT") return;
+			if(e.code === "Space"){
+				e.preventDefault();
+				togglePlay();
+			}
+		};
+		const handleKeyDown = (e) => {
+			if(e.target.tagName === "INPUT") return;
+			if(e.code === "ArrowRight"){
+				e.preventDefault();
+				const targetTime = Math.min(player.current.currentTime + 10, player.current.duration);
+				setDuration(targetTime)
+				player.current.currentTime = targetTime;
+			}
+			if(e.code === "ArrowLeft"){
+				e.preventDefault();
+				const targetTime = Math.max(player.current.currentTime - 10, 0);
+				setDuration(targetTime)
+				player.current.currentTime = targetTime;
+			}
+			if(e.code === "KeyN"){
+				e.preventDefault();
+				Store.notify("next song >>");
+				nextSong();
+			}
+			if(e.code === "KeyP"){
+				e.preventDefault();
+				Store.notify("<< previous song");
+				previousSong();
+			}
+		};
 
+		if(ready){
+			document.addEventListener("keypress", handleKeyPress);
+			document.addEventListener("keydown", handleKeyDown);
+		}
+
+		return () => {
+			document.removeEventListener("keypress", handleKeyPress);
+			document.removeEventListener("keydown", handleKeyDown);
+		}
+	}, [ready])
+	useEffect(() => {
 		const handlePlaybackEnded = () => {
 			// let media player handle song repeat
 			if(repeat) return;
 
 			if(shuffle) return randomSong()
 			nextSong();
-		};
-		const handleSpacePress = (e) => {
-			if(e.target.tagName === "INPUT") return;
-			if(e.code === "Space"){
-				e.preventDefault();
-				togglePlay();
-			}
 		};
 		const handleSongReady = () => {
 			setPlaying(!firstRender || playOnSongChange)
@@ -215,18 +250,16 @@ export default function Player(){
 		player.current.addEventListener("ended", handlePlaybackEnded);
 		player.current.addEventListener("loadedmetadata", handleSongReady);
 		player.current.addEventListener("progress", handleSongBuffer);
-		document.addEventListener("keypress", handleSpacePress);
 
         return () => {
         	player.current.removeEventListener("ended", handlePlaybackEnded);
 			player.current.removeEventListener("loadedmetadata", handleSongReady);
 			player.current.removeEventListener("progress", handleSongBuffer);
-			document.removeEventListener("keypress", handleSpacePress);
         };
 	}, [song]);
 
 	return <div id="player" className="border">
-		{ready?
+		{song.id ?
 		<div id="player-meta" className="border">
 			<img id="player-image" src="https://random.imagecdn.app/200/200"/>
 			<div id="player-text">
@@ -238,7 +271,7 @@ export default function Player(){
 				</div>
 			</div>
 		</div>
-		:null}
+		: null}
 
 		<div id="player-controls" className="border">
 			<div id="player-buttons">
