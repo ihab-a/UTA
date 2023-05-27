@@ -35,7 +35,7 @@ class StreamController extends Controller
             [$start, $end] = explode('-', $range);
 
             $start = max(0, intval($start));
-            $end = min($end ?: $start + 409600, $fileSize - 1);
+            $end = min($end ?: $start + 122880, $fileSize - 1);
             $length = $end - $start + 1;
 
             $headers['Content-Range'] = 'bytes ' . $start . '-' . $end . '/' . $fileSize;

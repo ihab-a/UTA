@@ -1,5 +1,7 @@
 .song-image{
 	width: 8rem;
+	height: 6rem;
+	object-fit: cover;
 	border-radius: .4rem;
 }
 .song{

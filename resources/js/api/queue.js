@@ -7,12 +7,18 @@ async function getQueue(){
 	return response.data;
 }
 
-function saveQueue(queue, offset){
+function saveQueue(offset=0, queue=undefined){
 	const controller = new window.AbortController();
 
-	queue = queue.map(q => ({song : q.id}));
 
-	axios.post(`/api/queue`, {queue, offset}, {
+	const data = {
+		offset
+	};
+
+	if(queue)
+		data.queue = queue?.map(q => ({song : q.id}));
+
+	axios.post(`/api/queue`, data, {
 		signal : controller.signal,
 		headers : {
 			Authorization: localStorage.token ?? ""

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { store } from '../index';
 import heartIcon from '/resources/assets/heart.png';
 import heartLikedIcon from '/resources/assets/heart-liked.png';
+import picture from "/resources/assets/login-splash.jpg";
 
 import '/resources/css/song.css';
 
@@ -12,7 +13,7 @@ export default function Song({ id, title, likes, user, liked, queue, offset }){
 		Store.player.play(queue, offset);
 	}
 	return <div className="song" onClick={handleClick} title={title}>
-		<img src="https://random.imagecdn.app/200/200" className="song-image"/>
+		<img src={picture} className="song-image"/>
 		<div className="text-truncate">{title}</div>
 		<div className="text-truncate">@ {user.username}</div>
 		<div className="flex-h">

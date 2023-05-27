@@ -157,8 +157,13 @@ export default function Player(){
 
 	useEffect(() => {
 		if(!firstRender && queue.length)
-			return saveQueue(queue, offset);
-	}, [queue, offset])
+			return saveQueue(offset, queue);
+	}, [queue])
+
+	useEffect(() => {
+		if(!firstRender && queue.length)
+			return saveQueue(offset);
+	}, [offset])
 
 	useEffect(() => {
 		allowFetch && getQueue().then(d => {
